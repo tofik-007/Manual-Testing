@@ -1,0 +1,46 @@
+Test Case ID,Module,Title,Preconditions,Test Steps,Test Data,Expected Result,Priority,Technique
+TC_LOGIN_001,Login,Valid login succeeds,User is on login page,1. Enter username 2. Enter password 3. Click Login,standard_user / secret_sauce,User is redirected to the Products page,High,
+TC_LOGIN_002,Login,Invalid password shows error,User is on login page,1. Enter valid username 2. Enter wrong password 3. Click Login,standard_user / wrongpass,Error message displayed: 'Username and password do not match',High,
+TC_LOGIN_003,Login,Invalid username shows error,User is on login page,1. Enter invalid username 2. Enter any password 3. Click Login,fake_user / secret_sauce,Error message displayed: username/password do not match,High,
+TC_LOGIN_004,Login,Empty username field,User is on login page,1. Leave username blank 2. Enter password 3. Click Login,'' / secret_sauce,Error message: 'Username is required',Medium,EP (invalid partition)
+TC_LOGIN_005,Login,Empty password field,User is on login page,1. Enter username 2. Leave password blank 3. Click Login,standard_user / '',Error message: 'Password is required',Medium,EP (invalid partition)
+TC_LOGIN_006,Login,Both fields empty,User is on login page,1. Leave both fields blank 2. Click Login,'' / '',Error message: 'Username is required',Medium,EP (invalid partition)
+TC_LOGIN_007,Login,Locked out user is blocked,User is on login page,1. Enter locked_out_user 2. Enter correct password 3. Click Login,locked_out_user / secret_sauce,Error message: 'Sorry this user has been locked out',High,
+TC_LOGIN_008,Login,Username is case sensitive,User is on login page,1. Enter username in different case 2. Enter correct password 3. Click Login,STANDARD_USER / secret_sauce,Login fails with error (confirm actual behavior),Low,
+TC_LOGIN_009,Login,Password masked while typing,User is on login page,1. Click password field 2. Type password,secret_sauce,Characters are masked (dots/asterisks) not plain text,Medium,
+TC_LOGIN_010,Login,SQL injection attempt in username,User is on login page,1. Enter SQL injection string as username 2. Enter any password 3. Click Login,' OR '1'='1 / anything,Login is rejected; no unexpected access granted,High,Error guessing
+TC_LOGIN_011,Login,Session ends on logout,User is logged in,1. Open menu 2. Click Logout,n/a,User is returned to login page; back button does not restore session,Medium,
+TC_PROD_001,Products,Product list loads after login,User is logged in,1. Observe products page,n/a,6 products are displayed with name/price/image,High,
+TC_PROD_002,Products,Sort by Name A-Z,User is on products page,1. Select 'Name (A to Z)' from sort dropdown,n/a,Products are displayed in alphabetical order,Medium,
+TC_PROD_003,Products,Sort by Name Z-A,User is on products page,1. Select 'Name (Z to A)' from sort dropdown,n/a,Products displayed in reverse alphabetical order,Medium,
+TC_PROD_004,Products,Sort by Price low-high,User is on products page,1. Select 'Price (low to high)',n/a,Products sorted ascending by price,Medium,
+TC_PROD_005,Products,Sort by Price high-low,User is on products page,1. Select 'Price (high to low)',n/a,Products sorted descending by price,Medium,
+TC_PROD_006,Products,View product detail page,User is on products page,1. Click a product name/image,n/a,Detail page shows full description price and Add to Cart button,Medium,
+TC_PROD_007,Products,Return from detail page to list,User is on product detail page,1. Click Back to products,n/a,User returns to full product list,Low,
+TC_PROD_008,Products,Product images load correctly,User is on products page,1. Observe all product images,n/a,All images load correctly and match products (check with problem_user too),Medium,Error guessing
+TC_CART_001,Cart,Add single item to cart,User is on products page,1. Click 'Add to cart' on one item,n/a,Cart badge shows '1'; button changes to 'Remove',High,
+TC_CART_002,Cart,Add multiple items to cart,User is on products page,1. Add 3 different items to cart,n/a,Cart badge shows '3',High,
+TC_CART_003,Cart,Remove item from products page,Item already in cart,1. Click 'Remove' on an added item,n/a,Cart badge decreases by 1; button reverts to 'Add to cart',High,
+TC_CART_004,Cart,Cart badge disappears when empty,Cart has one item,1. Remove the only item in cart,n/a,Cart badge icon shows no number,Medium,
+TC_CART_005,Cart,View cart page contents,Items are in cart,1. Click cart icon,n/a,Cart page lists correct items with correct quantities and prices,High,
+TC_CART_006,Cart,Remove item from cart page,Item is in cart,1. Open cart 2. Click Remove on an item,n/a,Item is removed from cart list; badge updates,High,
+TC_CART_007,Cart,Continue shopping from cart,User is on cart page,1. Click 'Continue Shopping',n/a,User returns to products page with cart state preserved,Low,
+TC_CART_008,Cart,Checkout with empty cart,Cart is empty,1. Navigate to cart 2. Click Checkout,n/a,'Confirm actual behavior: either blocked or proceeds with $0 order',Medium,Error guessing
+TC_CHK_001,Checkout,Valid checkout info proceeds,Item in cart; on checkout step one,1. Enter first name last name zip 2. Click Continue,John / Doe / 12345,User proceeds to checkout overview page,High,
+TC_CHK_002,Checkout,Empty first name blocked,Item in cart; on checkout step one,1. Leave first name blank 2. Fill rest 3. Click Continue,'' / Doe / 12345,Error: 'Error: First Name is required',High,EP (invalid partition)
+TC_CHK_003,Checkout,Empty last name blocked,Item in cart; on checkout step one,1. Fill first name 2. Leave last name blank 3. Click Continue,John / '' / 12345,Error: 'Error: Last Name is required',High,EP (invalid partition)
+TC_CHK_004,Checkout,Empty zip blocked,Item in cart; on checkout step one,1. Fill name fields 2. Leave zip blank 3. Click Continue,John / Doe / '',Error: 'Error: Postal Code is required',High,EP (invalid partition)
+TC_CHK_005,Checkout,Zip field min boundary (1 char),Item in cart; on checkout step one,1. Enter 1-character zip 2. Click Continue,John / Doe / 1,Confirm actual behavior: accepted or rejected,Medium,BVA (min)
+TC_CHK_006,Checkout,Zip field single valid value,Item in cart; on checkout step one,1. Enter typical 5-digit zip 2. Click Continue,John / Doe / 12345,Accepted; proceeds to overview,High,EP (valid partition)
+TC_CHK_007,Checkout,Zip field with letters,Item in cart; on checkout step one,1. Enter letters instead of numbers 2. Click Continue,John / Doe / ABCDE,Confirm actual behavior: accepted or rejected (no format validation is a plausible finding),Medium,Error guessing
+TC_CHK_008,Checkout,Zip field with special characters,Item in cart; on checkout step one,1. Enter special characters 2. Click Continue,John / Doe / '!!!!!',Confirm actual behavior: accepted or rejected,Low,Error guessing
+TC_CHK_009,Checkout,First name at max length boundary,Item in cart; on checkout step one,1. Enter a 100-character first name 2. Click Continue,'A' x 100 / Doe / 12345,Confirm actual behavior: accepted truncated or rejected,Low,BVA (max)
+TC_CHK_010,Checkout,First name with numbers,Item in cart; on checkout step one,1. Enter numbers in first name field 2. Click Continue,12345 / Doe / 12345,Confirm actual behavior: no server-side validation is a plausible finding,Low,Error guessing
+TC_CHK_011,Checkout,Order overview shows correct items,On checkout overview step,1. Observe item list price subtotal tax and total,n/a,All values match items added to cart and are summed correctly,High,
+TC_CHK_012,Checkout,Cancel from checkout step one,On checkout step one,1. Click Cancel,n/a,User returns to cart page; cart contents unchanged,Low,
+TC_CHK_013,Checkout,Cancel from overview step,On checkout overview step,1. Click Cancel,n/a,User returns to products page,Low,
+TC_CHK_014,Checkout,Finish completes order,On checkout overview step,1. Click Finish,n/a,'Thank you' confirmation page is displayed; cart is emptied,High,
+TC_CHK_015,Checkout,Back Home after order complete,On order confirmation page,1. Click 'Back Home',n/a,User returns to products page with empty cart,Medium,
+TC_NAV_001,Navigation,Hamburger menu opens,User is logged in,1. Click hamburger menu icon,n/a,Side menu opens with All Items About Logout Reset App State,Low,
+TC_NAV_002,Navigation,Reset App State clears cart,Items are in cart,1. Open menu 2. Click 'Reset App State',n/a,Cart badge clears; all items show 'Add to cart' again,Medium,
+TC_NAV_003,Navigation,Browser back button after logout,User has logged out,1. Click browser Back button,n/a,Confirm actual behavior: does app re-expose products page without login,Medium,Error guessing
