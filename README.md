@@ -48,7 +48,7 @@ qa-repo/
 ├── 02_Test_Cases.csv                  → 44 test cases (login, cart, checkout, sort)
 ├── 03_Exploratory_Session_Log.md      → charter-based exploratory session
 ├── 05_Test_Summary_Report.md          → final results, risk & release recommendation
-├── 05_Test_Summary_Report.pdf         → formatted, shareable version
+├── Test_Summary_Report.pdf            → formatted, shareable version
 └── bug-reports/
     ├── BUG-001.md ... BUG-011.md      → individual defect reports
     └── _TEMPLATE.md                   → reusable bug report format
@@ -107,7 +107,7 @@ Full breakdown of all 11 defects: [`bug-reports/`](./bug-reports)
 - 📊 [Test Cases (CSV)](./02_Test_Cases.csv)
 - 🔎 [Exploratory Session Log](./03_Exploratory_Session_Log.md)
 - 📈 [Test Summary Report (Markdown)](./05_Test_Summary_Report.md)
-- 📄 [Test Summary Report (PDF)](./05_Test_Summary_Report.pdf)
+- 📄 [Test Summary Report (PDF)](./Test_Summary_Report.pdf)
 
 ---
 
